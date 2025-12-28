@@ -15,14 +15,30 @@ function handleNotFound() {
 	});
 }
 
-export default {
-	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+export class CounterObject {
+	counter: number = 0;
+	async fetch(request: Request) {
 		const { pathname, searchParams } = new URL(request.url);
 		switch (pathname) {
 			case '/':
-				return handleHome();
+				return new Response(this.counter);
+			case '/+':
+				this.counter++;
+				return new Response(this.counter);
+			case '/-':
+				this.counter--;
+				return new Response(this.counter);
 			default:
 				return handleNotFound();
 		}
+	}
+}
+
+export default {
+	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		const id = env.COUNTER.idFromName('counter');
+		const durableObject = env.COUNTER.get(id);
+		const response = await durableObject.fetch(request);
+		return response;
 	},
 } satisfies ExportedHandler<Env>;

@@ -17,7 +17,15 @@
 			"preview_id": "5d22acac889c4098a0011b28a8ffaeb6",
 			"remote": true
 		}
-	]
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "COUNTER",
+				"class_name": "CounterObject"
+			}
+		]
+	}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

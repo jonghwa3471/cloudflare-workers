@@ -1,5 +1,6 @@
 // @ts-ignore
 import home from './home.html';
+import { makeBadge } from './utils';
 
 function handleHome() {
 	return new Response(home, {
@@ -34,11 +35,11 @@ async function handleVisit(searchParams: URLSearchParams, env: Env) {
 		value = Number(kvPage) + 1;
 		await env.view_counter.put(page, String(value));
 	}
-	return new Response(
-		JSON.stringify({
-			visits: value,
-		})
-	);
+	return new Response(makeBadge(value), {
+		headers: {
+			'Content-Type': 'image/svg+xml;charset=utf-8',
+		},
+	});
 }
 
 export default {
